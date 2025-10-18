@@ -4,6 +4,7 @@ import examen.biblioteca.model.Autor;
 import examen.biblioteca.model.Libro;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -50,22 +51,25 @@ public class AutorDAO implements GenericDAO<Autor,Long>{
 
     @Override
     public List<Autor> findAll() throws SQLException {
-
         List <Autor> autores = new ArrayList<>();
         String sql = "SELECT * FROM Autor";
-        try (java.sql.Connection connection = DBConnection.getConnection();
-             java.sql.PreparedStatement ps = connection.prepareStatement(sql)){
+
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            //ejecuta la consulta, es un cursor
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 autores.add(new Autor(
                         rs.getLong("id"),
                         rs.getString("name")
+
                 ));
+
             }
-             }
+        }
+        return autores;
 
 
-    return autores;
+
     }
 
     @Override
