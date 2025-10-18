@@ -1,6 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="examen.biblioteca.model.Libro" %>
+<%@ page import="examen.biblioteca.model.Autor" %>
+<%@ page import="examen.biblioteca.utils.Utils" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -25,6 +27,7 @@
 
     <% // traigo la lista de libros con java
         List <Libro> libros = (List<Libro>)request.getAttribute("libros");
+        List <Autor>  autores = (List<Autor>)request.getAttribute("autores");
 
         if (libros != null && !libros.isEmpty()){
     %>
@@ -46,12 +49,13 @@
                 <tbody>
                 <%
                     for (Libro l :libros){
+                        String nombreAutor = Utils.obtenerNombreAutores(autores, l.getId_autor());
                 %>
 
                 <tr>
                     <td><%= l.getId() %></td>
                     <td><%= l.getTitulo() %></td>
-                    <td><%= l.getAutor() %></td>
+                    <td><%= nombreAutor %></td>
                     <td><%= l.getFechaPublicacion() %></td>
                     <td>
                         <form action="<%=request.getContextPath()%>/libros/editar" method="get">

@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="examen.biblioteca.model.Libro" %>
+<%@ page import="examen.biblioteca.model.Autor" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -11,21 +12,19 @@
 <body class="bg-light">
 
 <%
-        Libro libro = (Libro) request.getAttribute("libro");
-        boolean esEdicion = libro != null; // o sea que el libro tiene que existir
-        String titulo = esEdicion ? "Editar Libro" : "Crear Nuevo Libro"; // entonces si exite puedo editar, si no creo uno
-        String accion  = esEdicion ? "editar" : "crear";
-
-
+    List<Autor> autores = (List<Autor>) request.getAttribute("autores");
+    Libro libro = (Libro) request.getAttribute("libro");
+    boolean esEdicion = libro != null; // o sea que el libro tiene que existir
+    String titulo = esEdicion ? "Editar Libro" : "Crear Nuevo Libro"; // entonces si exite puedo editar, si no creo uno
+    String accion = esEdicion ? "editar" : "crear";
 %>
-
 
 
 <div class="container mt-5">
     <div class="card shadow-sm">
         <div class="card-body">
-            <h1 class="text-primary mb-4"><%= titulo%></h1>
-
+            <h1 class="text-primary mb-4"><%= titulo%>
+            </h1>
 
             <form action="<%=request.getContextPath()%>/libros/<%=accion%>" method="post">
 
@@ -39,8 +38,26 @@
 
                 <div class="mb-3">
                     <label for="autor" class="form-label fw-bold">Autor</label>
-                    <input type="text" id="autor" name="autor" class="form-control" placeholder="Introduce el autor del libro"
-                    value="<%= esEdicion ? libro.getAutor() : "" %>">
+                    <select id="autor" name="id_autor" class="form-select" required>
+                    <option value=""> Selecciona un autor</option>
+                    <%
+                        if (autores != null && !autores.isEmpty()) {
+                            for (Autor autor : autores) {
+                                boolean seleccionado = false;
+                                if (esEdicion)
+                                    seleccionado = autor.getId().equals(libro.getId_autor());
+                    %>
+                    <%--                     //esto se genera dinamicamente--%>
+                    <option value="<%= autor.getId() %>" <%=seleccionado ? "selected" : ""%> ><%= autor.getNombre()%>
+                    </option>
+                    <%
+                        }
+                    } else {
+
+                    %>
+                    <option disabled>No hay autores disponibles</option>
+                    <% } %>
+                    }
                 </div>
 
                 <div class="mb-3">

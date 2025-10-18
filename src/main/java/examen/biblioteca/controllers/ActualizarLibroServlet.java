@@ -1,6 +1,8 @@
 package examen.biblioteca.controllers;
 
+import examen.biblioteca.model.Autor;
 import examen.biblioteca.model.Libro;
+import examen.biblioteca.repository.AutorDAO;
 import examen.biblioteca.repository.GenericDAO;
 import examen.biblioteca.repository.LibroDAO;
 import jakarta.servlet.ServletConfig;
@@ -14,6 +16,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,11 +25,13 @@ import java.util.Optional;
 @WebServlet("/libros/editar")
 public class ActualizarLibroServlet extends HttpServlet {
     GenericDAO<Libro, Long> libroDAO;
+    GenericDAO<Autor, Long> autorDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
         try {
             libroDAO = new LibroDAO();
+            autorDAO = new AutorDAO();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -41,8 +46,13 @@ public class ActualizarLibroServlet extends HttpServlet {
 
         try {
             Optional<Libro> libroOptional = libroDAO.findById(Long.parseLong(id));
+
             if(libroOptional.isPresent()){
                 request.setAttribute("libro",libroOptional.get());
+
+                List<Autor> autores = autorDAO.findAll();
+                request.setAttribute("autores",autores);
+
                 getServletContext().getRequestDispatcher("/formularioLibro.jsp").forward(request,response);
             }
         } catch (SQLException e) {
@@ -58,11 +68,15 @@ public class ActualizarLibroServlet extends HttpServlet {
 
         try {
 
+            Long id = Long.parseLong(request.getParameter("id"));
             String titulo = request.getParameter("titulo");
-            String autor = request.getParameter("autor");
-            LocalDate fecha= LocalDate.parse(request.getParameter("fechaPublicacion"));
+            Long id_autor = Long.parseLong(request.getParameter("id_autor"));
+            LocalDate fechaPublicacion = LocalDate.parse(request.getParameter("fechaPublicacion"), DateTimeFormatter.ISO_DATE);
 
-            libroDAO.update(new Libro(titulo,autor,fecha));
+            Libro libro = new Libro(id, fechaPublicacion, id_autor, titulo);
+
+
+            libroDAO.update(libro);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);

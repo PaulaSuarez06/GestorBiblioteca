@@ -4,31 +4,27 @@ import java.math.BigInteger;
 import java.util.Objects;
 
 public class Autor {
-    private long id;
+    private Long id;
     private String nombre;
 
     public Autor() {
     }
 
 
-    public Autor(long id, String nombre) {
+    public Autor(Long id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
 
-
-    public long getId() {
+    public Long getId() {
         return id;
     }
-
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
-
     public String getNombre() {
         return nombre;
     }
-
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -42,14 +38,20 @@ public class Autor {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Autor autor = (Autor) o;
-        return id == autor.id && Objects.equals(nombre, autor.nombre);
-    }
-
-    @Override
     public int hashCode() {
         return Objects.hash(id, nombre);
+    }
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Autor other = (Autor) obj;
+        return Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre);
+
+
     }
 }

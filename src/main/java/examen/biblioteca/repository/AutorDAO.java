@@ -68,8 +68,6 @@ public class AutorDAO implements GenericDAO<Autor,Long>{
         }
         return autores;
 
-
-
     }
 
     @Override

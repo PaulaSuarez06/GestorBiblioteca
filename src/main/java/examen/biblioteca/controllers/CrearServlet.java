@@ -77,7 +77,7 @@ public class CrearServlet extends HttpServlet {
     // estos datos, las variables, las meto al libro nuevo
 
 
-        Libro libro = new Libro(titulo,autor,fecha);
+        Libro libro = new Libro(null,fecha,Long.parseLong(autor),titulo);
     //ahora lo guardo en la base de datos
         try {
             libroDAO.save(libro);

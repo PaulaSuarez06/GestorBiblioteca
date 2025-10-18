@@ -26,18 +26,22 @@ public class ListarServlet extends HttpServlet {
         if(path.equals("/libros/list")){
 
         List<Libro> libros = new ArrayList<>();
+        List<Autor> autores = new ArrayList<>();
 
 
 
         try {
             GenericDAO<Libro, Long> daoLibro = new LibroDAO();
+            GenericDAO<Autor, Long> daoAutor = new AutorDAO();
             libros = daoLibro.findAll();
+            autores = daoAutor.findAll();
 
         } catch (SQLException e) {
             e.printStackTrace();
             request.getRequestDispatcher("/error.jsp").forward(request,response);
         }
         request.setAttribute("libros",libros);
+        request.setAttribute("autores",autores);
         getServletContext().getRequestDispatcher("/listaLibros.jsp").forward(request,response);
         }
 
