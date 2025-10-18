@@ -7,24 +7,19 @@ public class Libro {
 
     private long id;
     private String titulo;
-    private long idAutor;
+    private String autor;
     private LocalDate fechaPublicacion;
 
-    public Libro() {
+    public Libro(String titulo, String autor, LocalDate fecha) {
     }
 
-    public Libro(long id, String titulo, long idAutor, LocalDate fechaPublicacion) {
+    public Libro(long id, String titulo, String autor, LocalDate fechaPublicacion) {
         this.id = id;
         this.titulo = titulo;
-        this.idAutor = idAutor;
+        this.autor = autor;
         this.fechaPublicacion = fechaPublicacion;
     }
 
-    public Libro(String titulo, long idAutor, LocalDate fechaPublicacion) {
-        this.titulo = titulo;
-        this.idAutor = idAutor;
-        this.fechaPublicacion = fechaPublicacion;
-    }
 
     public long getId() {
         return id;
@@ -42,12 +37,12 @@ public class Libro {
         this.titulo = titulo;
     }
 
-    public long getIdAutor() {
-        return idAutor;
+    public String getAutor() {
+        return autor;
     }
 
-    public void setIdAutor(long idAutor) {
-        this.idAutor = idAutor;
+    public void setAutor(String autor) {
+        this.autor = autor;
     }
 
     public LocalDate getFechaPublicacion() {
@@ -58,26 +53,28 @@ public class Libro {
         this.fechaPublicacion = fechaPublicacion;
     }
 
+
     @Override
     public String toString() {
         return "Libro{" +
                 "id=" + id +
                 ", titulo='" + titulo + '\'' +
-                ", idAutor=" + idAutor +
+                ", autor='" + autor + '\'' +
                 ", fechaPublicacion=" + fechaPublicacion +
                 '}';
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Libro libro = (Libro) o;
-        return id == libro.id && idAutor == libro.idAutor && Objects.equals(titulo, libro.titulo) && Objects.equals(fechaPublicacion, libro.fechaPublicacion);
+        return id == libro.id && Objects.equals(titulo, libro.titulo) && Objects.equals(autor, libro.autor) && Objects.equals(fechaPublicacion, libro.fechaPublicacion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, titulo, idAutor, fechaPublicacion);
+        return Objects.hash(id, titulo, autor, fechaPublicacion);
     }
 }
+
+

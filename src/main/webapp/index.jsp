@@ -67,7 +67,7 @@
             <div class="card-body">
                 <h4 class="card-title text-success">✍️ Autores</h4>
                 <p class="card-text text-muted">Administra el catálogo de autores registrados.</p>
-                <a href="<%= request.getContextPath() %>/authors/list" class="btn btn-success btn-custom">Gestionar autores</a>
+                <a href="<%= request.getContextPath() %>/autores/list" class="btn btn-success btn-custom">Gestionar autores</a>
             </div>
         </div>
     </div>

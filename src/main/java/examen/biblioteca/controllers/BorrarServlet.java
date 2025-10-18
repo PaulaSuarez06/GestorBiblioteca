@@ -15,8 +15,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-@WebServlet("/libros/borrar")
-public class BorrarLibroServlet extends HttpServlet {
+@WebServlet({"/libros/borrar", "/autores/borrar}"})
+public class BorrarServlet extends HttpServlet {
 
     private GenericDAO<Libro,Long> libroDAO;
 

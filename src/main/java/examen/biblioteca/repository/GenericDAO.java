@@ -4,7 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-public interface GenericDAO <T,ID>{
+public interface GenericDAO <T,ID> {
 
     // CREATE
     void save(T entity) throws SQLException;
@@ -20,5 +20,5 @@ public interface GenericDAO <T,ID>{
     // DELETE
     void delete(ID id) throws SQLException;
 
-
 }
+

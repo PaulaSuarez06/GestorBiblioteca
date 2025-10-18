@@ -14,7 +14,7 @@
         Libro libro = (Libro) request.getAttribute("libro");
         boolean esEdicion = libro != null; // o sea que el libro tiene que existir
         String titulo = esEdicion ? "Editar Libro" : "Crear Nuevo Libro"; // entonces si exite puedo editar, si no creo uno
-        String accion  = esEdicion ? "Editar" : "crear";
+        String accion  = esEdicion ? "editar" : "crear";
 
 
 %>
@@ -34,13 +34,13 @@
                     <input type="text" id="titulo" name="titulo" class="form-control"
                            required placeholder="Introduce el título del libro"
                            value="<%= esEdicion ? libro.getTitulo() : "" %>"
-                           <%= esEdicion ? "readonly" : "" %>
+                    >
                 </div>
 
                 <div class="mb-3">
                     <label for="autor" class="form-label fw-bold">Autor</label>
                     <input type="text" id="autor" name="autor" class="form-control" placeholder="Introduce el autor del libro"
-                    value="<%= esEdicion ? libro.getIdAutor() : "" %>">
+                    value="<%= esEdicion ? libro.getAutor() : "" %>">
                 </div>
 
                 <div class="mb-3">
@@ -49,7 +49,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between">
-                    <a href="<%= request.getContextPath() %>/books/list" class="btn btn-outline-secondary">Volver</a>
+                    <a href="<%= request.getContextPath() %>/libros/list" class="btn btn-outline-secondary">Volver</a>
                     <button type="submit" class="btn btn-success">Guardar cambios</button>
                 </div>
             </form>

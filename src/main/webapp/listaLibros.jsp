@@ -1,6 +1,6 @@
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ page import="java.util.List" %>
 <%@ page import="examen.biblioteca.model.Libro" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -51,7 +51,7 @@
                 <tr>
                     <td><%= l.getId() %></td>
                     <td><%= l.getTitulo() %></td>
-                    <td><%= l.getIdAutor() %></td>
+                    <td><%= l.getAutor() %></td>
                     <td><%= l.getFechaPublicacion() %></td>
                     <td>
                         <form action="<%=request.getContextPath()%>/libros/editar" method="get">
