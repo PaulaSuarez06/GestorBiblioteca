@@ -1,5 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
+
+<%@ page import="jakarta.servlet.http.Cookie" %>
+<%
+    String lang = "es"; // idioma por defecto
+
+    if (request.getCookies() != null) {
+        for (Cookie c : request.getCookies()) {
+            if ("lang".equals(c.getName())) {
+                lang = c.getValue();
+                break;
+            }
+        }
+    }
+%>
+
 <html>
 <head>
     <meta charset="UTF-8">
@@ -45,11 +60,35 @@
     </style>
 </head>
 <body>
+<nav class="navbar navbar-dark bg-dark px-4 mb-4">
+    <div class="d-flex align-items-center justify-content-end mb-3" style="gap: 10px;">
+        <form action="<%= request.getContextPath() %>/idioma" method="get" class="d-flex align-items-center">
+            <label for="idioma" class="form-label me-2 fw-bold">
+                <%= lang.equals("en") ? "Language:" : "Idioma:" %>
+            </label>
+
+            <select id="idioma" name="lang" class="form-select form-select-sm me-2" style="width: 150px;">
+                <option value="es" <%= lang.equals("es") ? "selected" : "" %>>Español</option>
+                <option value="en" <%= lang.equals("en") ? "selected" : "" %>>Inglés</option>
+            </select>
+
+            <!-- 🔘 Botón de envío -->
+            <button type="submit" class="btn btn-primary btn-sm">
+                <%= lang.equals("en") ? "Change" : "Cambiar" %>
+            </button>
+        </form>
+    </div>
+</nav>
 <div class="container mt-5">
 
-    <section class="hero">
-        <h1>📚 Biblioteca JDBC</h1>
-        <p class="lead text-secondary">Gestión sencilla de autores y libros</p>
+
+
+
+<section class="hero">
+<h2><%= lang.equals("en") ? "Library Management" : "Gestión de Biblioteca" %></h2>
+        <p class="lead text-secondary"><%= lang.equals("en") ? "Easy books and authors management" : "Gestión sencilla de autores y libros" %></p>
+
+
     </section>
 
     <div class="card-container">

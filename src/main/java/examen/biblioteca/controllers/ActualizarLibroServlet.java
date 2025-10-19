@@ -84,8 +84,6 @@ public class ActualizarLibroServlet extends HttpServlet {
 
         }
 
-
         response.sendRedirect(request.getContextPath() + "/libros/list");
-
     }
 }
