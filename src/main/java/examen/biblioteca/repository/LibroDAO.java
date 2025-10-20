@@ -22,6 +22,14 @@ public class LibroDAO implements GenericDAO<Libro, Long> {
     @Override
     public void save(Libro entity) throws SQLException {
 
+        String sql = "INSERT INTO Libro (publication_date, author_id, title) VALUES (?,?,?)";
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setDate(1,java.sql.Date.valueOf(entity.getFechaPublicacion()));
+            ps.setLong(2,entity.getId_autor());
+            ps.setString(3,entity.getTitulo());
+            ps.executeUpdate();
+        }
+
     }
 
     @Override
@@ -65,7 +73,7 @@ public class LibroDAO implements GenericDAO<Libro, Long> {
 
     @Override
     public void update(Libro entity) throws SQLException {
-        String sql = "UPDATE Libro SET fechaPublicacion = ?, id_autor = ?, titulo = ? WHERE id = ?";
+        String sql = "UPDATE Libro SET publication_date= ?, author_id = ?, title = ? WHERE id = ?";
         try (PreparedStatement ps = connection.prepareStatement(sql)){
             ps.setDate(1,java.sql.Date.valueOf(entity.getFechaPublicacion()));
             ps.setLong(2,entity.getId_autor());
@@ -78,6 +86,14 @@ public class LibroDAO implements GenericDAO<Libro, Long> {
 
     @Override
     public void delete(Long aLong) throws SQLException {
+
+        String sql = "DELETE FROM Libro WHERE id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setLong(1,aLong);
+            ps.executeUpdate();
+        }
+
+
 
     }
 }

@@ -28,48 +28,53 @@
 
             <form action="<%=request.getContextPath()%>/libros/<%=accion%>" method="post">
 
+                <%-- ✅ Campo oculto solo si estamos editando --%>
+                <% if (esEdicion) { %>
+                <input type="hidden" name="id" value="<%= libro.getId() %>">
+                <% } %>
+
                 <div class="mb-3">
                     <label for="titulo" class="form-label fw-bold">Título</label>
                     <input type="text" id="titulo" name="titulo" class="form-control"
                            required placeholder="Introduce el título del libro"
-                           value="<%= esEdicion ? libro.getTitulo() : "" %>"
-                    >
+                           value="<%= esEdicion ? libro.getTitulo() : "" %>">
                 </div>
 
                 <div class="mb-3">
                     <label for="autor" class="form-label fw-bold">Autor</label>
                     <select id="autor" name="id_autor" class="form-select" required>
-                    <option value=""> Selecciona un autor</option>
-                    <%
-                        if (autores != null && !autores.isEmpty()) {
-                            for (Autor autor : autores) {
-                                boolean seleccionado = false;
-                                if (esEdicion)
-                                    seleccionado = autor.getId().equals(libro.getId_autor());
-                    %>
-                    <%--                     //esto se genera dinamicamente--%>
-                    <option value="<%= autor.getId() %>" <%=seleccionado ? "selected" : ""%> ><%= autor.getNombre()%>
-                    </option>
-                    <%
-                        }
-                    } else {
-
-                    %>
-                    <option disabled>No hay autores disponibles</option>
-                    <% } %>
-                    }
+                        <option value="">Selecciona un autor</option>
+                        <%
+                            if (autores != null && !autores.isEmpty()) {
+                                for (Autor autor : autores) {
+                                    boolean seleccionado = esEdicion && autor.getId().equals(libro.getId_autor());
+                        %>
+                        <option value="<%= autor.getId() %>" <%= seleccionado ? "selected" : "" %>>
+                            <%= autor.getNombre() %>
+                        </option>
+                        <%
+                            }
+                        } else {
+                        %>
+                        <option disabled>No hay autores disponibles</option>
+                        <%
+                            }
+                        %>
+                    </select>
                 </div>
 
                 <div class="mb-3">
                     <label for="fechaPublicacion" class="form-label fw-bold">Fecha de publicación</label>
-                    <input type="date" id="fechaPublicacion" name="fechaPublicacion" class="form-control">
+                    <input type="date" id="fechaPublicacion" name="fechaPublicacion" class="form-control"
+                           value="<%= esEdicion && libro.getFechaPublicacion() != null ? libro.getFechaPublicacion().toString() : "" %>">
                 </div>
 
-                <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-between mt-4">
                     <a href="<%= request.getContextPath() %>/libros/list" class="btn btn-outline-secondary">Volver</a>
                     <button type="submit" class="btn btn-success">Guardar cambios</button>
                 </div>
             </form>
+
         </div>
     </div>
 </div>

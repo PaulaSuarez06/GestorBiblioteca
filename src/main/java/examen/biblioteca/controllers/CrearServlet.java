@@ -44,10 +44,13 @@ public class CrearServlet extends HttpServlet {
 
      if(path.equals("/libros/crear")){
         List<Libro> libros = new ArrayList<>();
+        List <Autor> autores = new ArrayList<>();
 
         try {
             libros = libroDAO.findAll();
+            autores = autorDAO.findAll();
             request.setAttribute("libros",libros);
+            request.setAttribute("autores",autores);
             getServletContext().getRequestDispatcher("/formularioLibro.jsp").forward(request,response);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,7 +58,7 @@ public class CrearServlet extends HttpServlet {
      } else if (path.equals("/autores/crear")){
 
          try {
-             List<Autor> autores = new ArrayList<>();
+             List<Autor> autores;
              autores = autorDAO.findAll();
              request.setAttribute("autores",autores);
              getServletContext().getRequestDispatcher("/formularioAutor.jsp").forward(request,response);
@@ -71,7 +74,7 @@ public class CrearServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     // recojo los datos del formulario, lo que el usuario ingrea
         String titulo = request.getParameter("titulo");
-        String autor = request.getParameter("autor");
+        String autor = request.getParameter("id_autor");
         LocalDate fecha= LocalDate.parse(request.getParameter("fechaPublicacion"));
 
     // estos datos, las variables, las meto al libro nuevo

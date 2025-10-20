@@ -1,7 +1,9 @@
 package examen.biblioteca.controllers;
 
 
+import examen.biblioteca.model.Autor;
 import examen.biblioteca.model.Libro;
+import examen.biblioteca.repository.AutorDAO;
 import examen.biblioteca.repository.GenericDAO;
 import examen.biblioteca.repository.LibroDAO;
 import jakarta.servlet.ServletConfig;
@@ -19,12 +21,14 @@ import java.sql.SQLException;
 public class BorrarServlet extends HttpServlet {
 
     private GenericDAO<Libro,Long> libroDAO;
+    private GenericDAO<Autor,Long> autorDAO;
 
     @Override
     public void init(ServletConfig config) throws ServletException {
 
         try {
             libroDAO = new LibroDAO();
+            autorDAO = new AutorDAO();
         } catch (SQLException e) {
             throw new ServletException("error inicializando DAO",e);
         }
