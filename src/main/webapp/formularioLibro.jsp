@@ -15,7 +15,7 @@
     List<Autor> autores = (List<Autor>) request.getAttribute("autores");
     Libro libro = (Libro) request.getAttribute("libro");
     boolean esEdicion = libro != null; // o sea que el libro tiene que existir
-    String titulo = esEdicion ? "Editar Libro" : "Crear Nuevo Libro"; // entonces si exite puedo editar, si no creo uno
+    String titulo = esEdicion ? "Editar libro" : "Crear nuevo libro"; // entonces si exite puedo editar, si no creo uno
     String accion = esEdicion ? "editar" : "crear";
 %>
 

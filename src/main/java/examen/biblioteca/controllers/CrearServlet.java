@@ -72,7 +72,11 @@ public class CrearServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    // recojo los datos del formulario, lo que el usuario ingrea
+
+        String path = request.getServletPath();
+        if(path.equals("/libros/crear")){
+
+        // recojo los datos del formulario, lo que el usuario ingrea
         String titulo = request.getParameter("titulo");
         String autor = request.getParameter("id_autor");
         LocalDate fecha= LocalDate.parse(request.getParameter("fechaPublicacion"));
@@ -90,7 +94,19 @@ public class CrearServlet extends HttpServlet {
 
         }
         response.sendRedirect(request.getContextPath()+"/libros/list");
+        }
 
+        else if(path.equals("/autores/crear")){
+
+            String nombre = request.getParameter("nombre");
+            Autor autor = new Autor(null,nombre);
+            try {
+                autorDAO.save(autor);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            response.sendRedirect(request.getContextPath()+"/autores/list");
+        }
 
     }
 }

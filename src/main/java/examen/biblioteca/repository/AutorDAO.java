@@ -1,31 +1,31 @@
 package examen.biblioteca.repository;
 
 import examen.biblioteca.model.Autor;
-import examen.biblioteca.model.Libro;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class AutorDAO implements GenericDAO<Autor,Long>{
+public class AutorDAO implements GenericDAO<Autor, Long> {
 
     private Connection connection;
 
 
-    public AutorDAO() throws SQLException{
+    public AutorDAO() throws SQLException {
         connection = DBConnection.getConnection();
     }
+
     @Override
     public void save(Autor entity) throws SQLException {
 
         String sql = "INSERT INTO Autor (name) VALUES (?)";
-        try (java.sql.Connection connection = DBConnection.getConnection();
-             java.sql.PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setString(1,entity.getNombre());
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, entity.getNombre());
             ps.executeUpdate();
         }
 
@@ -33,31 +33,33 @@ public class AutorDAO implements GenericDAO<Autor,Long>{
 
     @Override
     public Optional<Autor> findById(Long aLong) throws SQLException {
-
         String sql = "SELECT * FROM Autor WHERE id = ?";
-        try (java.sql.Connection connection = DBConnection.getConnection();
-             java.sql.PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setLong(1,aLong);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setLong(1, aLong);
             ResultSet rs = ps.executeQuery();
-            if (rs.next()){
-                return Optional.of(new Autor(
+            if (rs.next()) {
+                Autor autor = new Autor(
                         rs.getLong("id"),
                         rs.getString("name")
-                ));
+                );
+                return Optional.of(autor);
             }
-             }
-         return Optional.empty();
+
         }
+
+
+        return Optional.empty();
+    }
 
     @Override
     public List<Autor> findAll() throws SQLException {
-        List <Autor> autores = new ArrayList<>();
+        List<Autor> autores = new ArrayList<>();
         String sql = "SELECT * FROM Autor";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql)){
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             //ejecuta la consulta, es un cursor
             ResultSet rs = ps.executeQuery();
-            while (rs.next()){
+            while (rs.next()) {
                 autores.add(new Autor(
                         rs.getLong("id"),
                         rs.getString("name")
@@ -74,10 +76,9 @@ public class AutorDAO implements GenericDAO<Autor,Long>{
     public void update(Autor entity) throws SQLException {
 
         String sql = "UPDATE Autor SET name = ? WHERE id = ?";
-        try (java.sql.Connection connection = DBConnection.getConnection();
-             java.sql.PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setString(1,entity.getNombre());
-            ps.setLong(2,entity.getId());
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setString(1, entity.getNombre());
+            ps.setLong(2, entity.getId());
             ps.executeUpdate();
         }
 
@@ -87,11 +88,11 @@ public class AutorDAO implements GenericDAO<Autor,Long>{
     public void delete(Long aLong) throws SQLException {
 
         String sql = "DELETE FROM Autor WHERE id = ?";
-        try (java.sql.Connection connection = DBConnection.getConnection();
-             java.sql.PreparedStatement ps = connection.prepareStatement(sql)){
-            ps.setLong(1,aLong);
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setLong(1, aLong);
             ps.executeUpdate();
         }
-
     }
+
 }
+

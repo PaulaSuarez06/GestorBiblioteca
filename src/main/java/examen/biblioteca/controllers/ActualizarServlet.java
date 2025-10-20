@@ -14,16 +14,14 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 
 @WebServlet({"/libros/editar" , "/autores/editar"})
-public class ActualizarLibroServlet extends HttpServlet {
+public class ActualizarServlet extends HttpServlet {
     GenericDAO<Libro, Long> libroDAO;
     GenericDAO<Autor, Long> autorDAO;
 
@@ -42,6 +40,10 @@ public class ActualizarLibroServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String path = request.getServletPath();
+
+        if(path.equals("/libros/editar")){
+
         String id = request.getParameter("id");
 
         try {
@@ -59,31 +61,67 @@ public class ActualizarLibroServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
+        }
 
+
+        else if(path.equals("/autores/editar")){
+
+            String id = request.getParameter("id");
+
+            try {
+                Optional<Autor> autorOptional = autorDAO.findById(Long.parseLong(id));
+
+                if(autorOptional.isPresent()){
+                    request.setAttribute("autor",autorOptional.get());
+
+                    getServletContext().getRequestDispatcher("/formularioAutor.jsp").forward(request,response);
+                }
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+
+
+
+        }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String path = request.getServletPath();
+
+        if (path.equals("/libros/editar")) {
+            try {
+
+                Long id = Long.parseLong(request.getParameter("id"));
+                String titulo = request.getParameter("titulo");
+                Long id_autor = Long.parseLong(request.getParameter("id_autor"));
+                LocalDate fechaPublicacion = LocalDate.parse(request.getParameter("fechaPublicacion"), DateTimeFormatter.ISO_DATE);
+
+                Libro libro = new Libro(id, fechaPublicacion, id_autor, titulo);
 
 
-        try {
+                libroDAO.update(libro);
 
-            Long id = Long.parseLong(request.getParameter("id"));
-            String titulo = request.getParameter("titulo");
-            Long id_autor = Long.parseLong(request.getParameter("id_autor"));
-            LocalDate fechaPublicacion = LocalDate.parse(request.getParameter("fechaPublicacion"), DateTimeFormatter.ISO_DATE);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
 
-            Libro libro = new Libro(id, fechaPublicacion, id_autor, titulo);
+            response.sendRedirect(request.getContextPath() + "/libros/list");
+        } else if (path.equals("/autores/editar")) {
+            try {
 
-
-            libroDAO.update(libro);
-
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-
-
+                Long id = Long.parseLong(request.getParameter("idAutor"));
+                String nombre = request.getParameter("nombre");
+                Autor autor = new Autor(id, nombre);
+                autorDAO.update(autor);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            response.sendRedirect(request.getContextPath() + "/autores/list");
         }
 
-        response.sendRedirect(request.getContextPath() + "/libros/list");
+
     }
+
 }
