@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 
-@WebServlet("/libros/editar")
+@WebServlet({"/libros/editar" , "/autores/editar"})
 public class ActualizarLibroServlet extends HttpServlet {
     GenericDAO<Libro, Long> libroDAO;
     GenericDAO<Autor, Long> autorDAO;
