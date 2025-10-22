@@ -3,7 +3,9 @@ package examen.biblioteca.model;
 import java.math.BigInteger;
 import java.util.Objects;
 
-public class Autor {
+public class Autor  implements Comparable<Autor>{
+
+
     private Long id;
     private String nombre;
 
@@ -53,5 +55,11 @@ public class Autor {
         return Objects.equals(id, other.id) && Objects.equals(nombre, other.nombre);
 
 
+    }
+
+
+    @Override
+    public int compareTo(Autor o) {
+        return this.nombre.compareTo(o.nombre);
     }
 }

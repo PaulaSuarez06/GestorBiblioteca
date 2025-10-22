@@ -18,6 +18,27 @@ public class LibroDAO implements GenericDAO<Libro, Long> {
         connection = DBConnection.getConnection();
     }
 
+    public List<Libro> findAllByAuthor(Long id) throws SQLException {
+        List<Libro> libros = new ArrayList<>();
+        String sql = "SELECT * FROM Libro WHERE author_id = ?";
+        try (PreparedStatement ps = connection.prepareStatement(sql)){
+            ps.setLong(1,id);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                libros.add(new Libro(
+                        rs.getLong("id"),
+                        rs.getObject("publication_date", LocalDate.class),
+                        rs.getLong("author_id"),
+                        rs.getString("title")
+                ));
+                libros.add(new Libro());
+
+            }    }
+            return libros;
+    }
+
+
+
 
     @Override
     public void save(Libro entity) throws SQLException {

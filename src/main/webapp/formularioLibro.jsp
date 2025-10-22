@@ -38,7 +38,16 @@
                     <input type="text" id="titulo" name="titulo" class="form-control"
                            required placeholder="Introduce el título del libro"
                            value="<%= esEdicion ? libro.getTitulo() : "" %>">
+                    <%
+                        String error = (String) request.getAttribute("ErrorTexto");
+                        if (error != null) {
+                    %>
+                    <p style="color: red;"><%= error %></p>
+                    <%
+                        }
+                    %>
                 </div>
+
 
                 <div class="mb-3">
                     <label for="autor" class="form-label fw-bold">Autor</label>
@@ -68,6 +77,15 @@
                     <input type="date" id="fechaPublicacion" name="fechaPublicacion" class="form-control"
                            value="<%= esEdicion && libro.getFechaPublicacion() != null ? libro.getFechaPublicacion().toString() : "" %>">
                 </div>
+                    <%
+                        String error2 = (String) request.getAttribute("errorFecha");
+                        if (error2 != null) {
+                    %>
+                    <p style="color: red;"><%= error2 %></p>
+                    <%
+                        }
+                    %>
+
 
                 <div class="d-flex justify-content-between mt-4">
                     <a href="<%= request.getContextPath() %>/libros/list" class="btn btn-outline-secondary">Volver</a>

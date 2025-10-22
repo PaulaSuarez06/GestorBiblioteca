@@ -67,6 +67,19 @@
             <a href="<%= request.getContextPath() %>/autores/crear" class="btn btn-success">Añadir nuevo autor</a>
         </div>
     </div>
+    <!-- Formulario de búsqueda -->
+    <form action="<%= request.getContextPath() %>/autores/list" method="get" class="row g-3 mb-4">
+        <div class="col-md-6">
+            <input type="text" name="nombre" class="form-control" placeholder="Buscar autor por nombre..."
+                   value="<%= request.getParameter("nombre") != null ? request.getParameter("nombre") : "" %>">
+        </div>
+        <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">🔍 Buscar</button>
+        </div>
+        <div class="col-md-3">
+            <a href="<%= request.getContextPath() %>/autores/list" class="btn btn-outline-secondary w-100">🔄 Mostrar todos</a>
+        </div>
+    </form>
 
     <%
         List<Autor> autores = (List<Autor>) request.getAttribute("autores");

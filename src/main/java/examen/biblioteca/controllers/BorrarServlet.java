@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 
-@WebServlet({"/libros/borrar", "/autores/borrar}"})
+@WebServlet({"/libros/borrar", "/autores/borrar"})
 public class BorrarServlet extends HttpServlet {
 
     private GenericDAO<Libro,Long> libroDAO;
@@ -38,6 +38,8 @@ public class BorrarServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+        String path = request.getServletPath();
+        if(path.equals("/libros/borrar")){
         try {
             long id = Long.parseLong(request.getParameter("id"));
             libroDAO.delete(id);
@@ -45,5 +47,19 @@ public class BorrarServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
         response.sendRedirect(request.getContextPath() + "/libros/list");
+
+        }
+
+        else if(path.equals("/autores/borrar")){
+            try {
+                long id = Long.parseLong(request.getParameter("id"));
+                autorDAO.delete(id);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            response.sendRedirect(request.getContextPath() + "/autores/list");
+        }
+
+
     }
 }
