@@ -1,4 +1,4 @@
-- Práctica para la asignatura de desarrollo web en entorno cliente del segundo curso de grado superior de desarrollo web.
+- Práctica para la asignatura de desarrollo web en entorno servidor del segundo curso de grado superior de desarrollo web.
 - Se trata de un gestor de biblioteca, donde podemos ver lista de libros y hacer modificaciones en ellos, lo mismo con autores.
 - Utilizo JakartaEE, servidor Tomcat y  base de datos en memoria H2.
 - En ella también implementé cookies para cambiar idioma de la página principal y para cambiar el color de una tabla en el gestor de autores. 
